@@ -1,0 +1,63 @@
+<app-header></app-header>
+<div style="margin-top: 200px;">
+    <div class="input-group" style="max-width: 400px;margin:auto">
+        <input type="text" [(ngModel)]="companyCode" class="form-control"  style="height: 50px; width: max-content;" placeholder="Search by Company Code">
+        <div class="input-group-append">
+            <button class="btn btn-secondary" (click)="searchCompany()" type="button">
+                <i class="fa fa-search"></i>
+            </button>
+        </div>
+        
+    </div>
+    
+    <button style="margin-left: 45% ;margin-top:2%; background-color: royalblue;" (click)="viewAllCompany()" class="btn btn-secondary" type="button">
+        View All Company
+    </button>
+    
+    <div class="container">
+        <div class="row py-5">
+          <div class="col-12">
+            <table *ngIf="(compList && compList.length>0)" id="example" class="table table-hover responsive nowrap" style="width:100%">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Code</th>
+                  <th>CEO</th>
+                  <th>Turnover</th>
+                  <th>Website</th>
+                  <th>Stock Exchange</th>
+                  <th>Latest Stock Price</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let compData of compList">
+                  <td >
+                    <a [routerLink]="['/company',compData.companyCode]">
+                      <div class="d-flex align-items-center">
+                        <div class="">
+                          <p class="font-weight-bold mb-0">{{compData.companyName}}</p>
+                        </div>
+                      </div>
+                    </a>
+                  </td>
+                  <td>{{compData.companyCode}}</td>
+                  <td>{{compData.companyCeo}}</td>
+                  <td>{{compData.companyTurnOver}}</td>
+                  <td>{{compData.companyWebsite}}</td>
+                  <td>{{compData.companyStockExchange}}</td>
+                  <td *ngIf="compData">
+                      <input type="text" class="form-control" #stockVal (change)= "updateStockPrice(stockVal.value)" value={{getLatestStockPrice(compData.companyStockPriceList)}}>
+                  </td>
+                  <td *ngIf="compData"> 
+                    <button class="badge badge-success badge-success-alt" (click)="addStockPrice(compData)" style="background-color: royalblue;color: white;">Update</button>
+                    &nbsp;
+                    <button class="badge badge-danger badge-danger-alt" (click)="deleteCompanyData(compData)">Delete</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+</div>
